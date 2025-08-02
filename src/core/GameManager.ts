@@ -53,7 +53,7 @@ class GameManager extends EventEmitter {
 
     public restart() {
         // location.reload();
-        window.location.href = 'https://www.bilibili.com/video/BV1E8411v7xy'
+        window.location.href = 'https://www.guc.edu.kg/'
     }
     public task(handle: Function | Promise<any>, props = {}) {
         return this.taskManger.task(handle, props);
