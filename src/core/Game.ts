@@ -147,11 +147,21 @@ class StateGame extends StateHandler<Game> {
         const audioBGM = viewer.addNode(AudioComponent);
         const audioEffect = viewer.addNode(AudioComponent);
 
+        let bgmStarted = false;
+
+        // 创建一个函数来启动背景音乐
+        const startBGM = () => {
+            if (!bgmStarted) {
+                audioBGM.play({ url: "/Genshin/BGM.mp3", loop: true });
+                bgmStarted = true;
+            }
+        };
+
         gameManager.on("canvas-click", () => {
-            audioBGM.play({ url: "/Genshin/BGM.mp3", loop: true });
+            startBGM(); // 首次点击时启动背景音乐
         })
         gameManager.on("button-start-click", () => {
-            audioBGM.play({ url: "/Genshin/BGM.mp3", loop: true });
+            startBGM(); // 确保背景音乐已启动
             audioEffect.play({ url: "/Genshin/Genshin Impact [Duang].mp3", force: true });
         })
         gameManager.on("openDoor", () => {
@@ -160,7 +170,6 @@ class StateGame extends StateHandler<Game> {
         gameManager.on("doorCreateBegin", () => {
             setTimeout(() => audioEffect.play({ url: "/Genshin/Genshin Impact [DoorComeout].mp3", force: true }), 150);
         })
-
     }
 
     private _startGame(e: MouseEvent) {
