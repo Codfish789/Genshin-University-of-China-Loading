@@ -1,0 +1,163 @@
+.intermediate-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: background-color 0.5s ease;
+}
+
+// 白天模式样式 (6:00-18:00)
+.intermediate-page.daytime {
+  background: #ffffff;
+}
+
+.intermediate-page.daytime .element-icon .icon-base {
+  opacity: 0.3;
+  filter: grayscale(100%) brightness(0.5);
+}
+
+.intermediate-page.daytime .element-icon .icon-active {
+  opacity: 1;
+  filter: grayscale(100%) brightness(0.6);
+}
+
+// 夜晚模式样式 (18:00-6:00)
+.intermediate-page.nighttime {
+  background: #1a1a1a;
+}
+
+.intermediate-page.nighttime .element-icon .icon-base {
+  opacity: 0.2;
+  filter: brightness(0) invert(1) brightness(3);
+}
+
+.intermediate-page.nighttime .element-icon .icon-active {
+  opacity: 1;
+  filter: brightness(0) invert(1) brightness(5);
+}
+
+.genshin-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.element-progress-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+.element-icon {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  
+  .icon-base {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: all 0.3s ease;
+  }
+  
+  .icon-active {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: all 0.3s ease;
+    clip-path: inset(0 calc(100% - var(--icon-progress)) 0 0);
+  }
+}
+
+.loading-text {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 30px 0;
+  min-height: 25px;
+}
+
+.button-group {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 40px;
+  animation: fadeInUp 0.6s ease;
+  
+  button {
+    padding: 12px 30px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    backdrop-filter: blur(10px);
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    &.confirm-btn {
+      background: linear-gradient(45deg, #4CAF50, #45a049);
+      border-color: #4CAF50;
+      
+      &:hover {
+        background: linear-gradient(45deg, #45a049, #3d8b40);
+        box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+      }
+    }
+    
+    &.cancel-btn {
+      background: linear-gradient(45deg, #f44336, #da190b);
+      border-color: #f44336;
+      
+      &:hover {
+        background: linear-gradient(45deg, #da190b, #c62828);
+        box-shadow: 0 5px 15px rgba(244, 67, 54, 0.4);
+      }
+    }
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}

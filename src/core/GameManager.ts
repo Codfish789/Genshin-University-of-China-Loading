@@ -52,9 +52,15 @@ class GameManager extends EventEmitter {
     }
 
     public restart() {
-        // location.reload();
-        window.location.href = 'https://www.guc.edu.kg/'
+        // 触发显示中间页面的事件，而不是直接跳转
+        this.emit("show-intermediate-page");
     }
+    
+    public confirmRestart() {
+        // 确认跳转时调用
+        window.location.href = 'https://www.guc.edu.kg/';
+    }
+    
     public task(handle: Function | Promise<any>, props = {}) {
         return this.taskManger.task(handle, props);
     }
