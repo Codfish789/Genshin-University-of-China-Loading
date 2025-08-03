@@ -47,6 +47,12 @@ export function IntermediatePage({ onConfirm, onCancel }: { onConfirm: () => voi
       setIsDaytime(checkDaytime());
     }, 60000);
 
+    // 生成1-2秒的随机加载时间
+    const randomLoadingTime = Math.random() * 1000 + 1000; // 1000-2000ms
+    const totalSteps = 100; // 总进度步数
+    const stepInterval = randomLoadingTime / totalSteps; // 每步的时间间隔
+    const progressIncrement = 100 / totalSteps; // 每步的进度增量
+
     const interval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 100) {
@@ -57,9 +63,9 @@ export function IntermediatePage({ onConfirm, onCancel }: { onConfirm: () => voi
           clearInterval(interval);
           return prev;
         }
-        return prev + 0.5; // 每次增加0.5%，更平滑
+        return prev + progressIncrement;
       });
-    }, 25); // 每25ms增加0.5%
+    }, stepInterval);
     
     return () => {
       clearInterval(interval);
