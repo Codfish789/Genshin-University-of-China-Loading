@@ -1,17 +1,14 @@
 .progress-container {
-    // z-index: 1;
     height: 100%;
     width: 100%;
     position: absolute;
-    background-color: #fff;
-    // border: solid 1px white;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     pointer-events: none;
     background-size: 2vmin, 1vmin;
-    transition: opacity 1.5s ease 1s;
+    transition: opacity 1.5s ease 1s, background-color 0.5s ease;
 
     .progress-content {
         display: flex;
@@ -25,45 +22,97 @@
         width: 45vmin;
         height: 35vmin;
         margin-bottom: 5vmin;
-
-        transition: opacity 1s ease 1.2s;
+        transition: opacity 1s ease 1.2s, filter 0.5s ease;
     }
 
     .LoadingBar {
         width: 40vmin;
         height: 1.2vmin;
         border-radius: 0.7vmin;
-
         transition: opacity 1s ease 1.2s;
-        // box-shadow: 0 0 13px rgba(0, 0, 0, 0.5);
-        .ball{
+        
+        .ball {
             z-index: auto;
             top: -1.2vmin;
             width: 1.2vmin;
             height: 1.2vmin;
             position: relative;
-            background-color: rgb(48, 48, 48);
             clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            transition: background-color 0.5s ease;
         }
 
         .progress-bar {
             width: 41vmin;
             margin-left: -0.5vmin;
             height: 100%;
-    
-            background-color: rgb(194, 194, 194);
             clip-path: polygon(0.5vmin 0, 40.5vmin 0, 100% 50%, 40.5vmin 100%, 0.5vmin 100%, 0 50%);
+            transition: background-color 0.5s ease;
     
             .progress {
                 width: 50%;
                 height: 100%;
-                background-color: rgb(48, 48, 48);
-                // transition: width 0.5s ease;
+                transition: background-color 0.5s ease;
             }
         }
+        
+        div:last-child {
+            transition: color 0.5s ease;
+        }
     }
+}
 
+// 白天模式样式 (6:00-18:00)
+.progress-container.daytime {
+    background-color: #ffffff;
     
+    .Genshin {
+        filter: none;
+    }
+    
+    .LoadingBar {
+        .ball {
+            background-color: rgb(48, 48, 48);
+        }
+        
+        .progress-bar {
+            background-color: rgb(194, 194, 194);
+            
+            .progress {
+                background-color: rgb(48, 48, 48);
+            }
+        }
+        
+        div:last-child {
+            color: rgb(48, 48, 48);
+        }
+    }
+}
+
+// 夜晚模式样式 (18:00-6:00)
+.progress-container.nighttime {
+    background-color: #1a1a1a;
+    
+    .Genshin {
+        filter: brightness(0) invert(1) brightness(1.2);
+    }
+    
+    .LoadingBar {
+        .ball {
+            background-color: rgb(255, 255, 255);
+        }
+        
+        .progress-bar {
+            background-color: rgb(80, 80, 80);
+            
+            .progress {
+                background-color: rgb(255, 255, 255);
+            }
+        }
+        
+        div:last-child {
+            color: rgb(255, 255, 255);
+        }
+    }
 }
 
 .bird {

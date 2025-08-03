@@ -8,6 +8,26 @@ export function Preloader() {
   const progressRef = useRef();
   const [visible, setVisible] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [isDaytime, setIsDaytime] = useState(true);
+
+  // 检测是否为白天模式 (UTC+8)
+  const checkDaytime = () => {
+    const now = new Date();
+    const utc8Time = new Date(now.getTime() + (8 * 60 * 60 * 1000));
+    const hour = utc8Time.getUTCHours();
+    return hour >= 6 && hour < 18; // 6:00-18:00 为白天
+  };
+
+  useEffect(() => {
+    setIsDaytime(checkDaytime());
+    
+    // 每分钟检查一次时间
+    const interval = setInterval(() => {
+      setIsDaytime(checkDaytime());
+    }, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     if (progress >= 1) {
@@ -25,7 +45,7 @@ export function Preloader() {
   }, [progress]);
 
   return (
-    <div className="progress-container" style={{ opacity: visible ? "1" : "0" }}>
+    <div className={`progress-container ${isDaytime ? 'daytime' : 'nighttime'}`} style={{ opacity: visible ? "1" : "0" }}>
       <div className="progress-content" >
         <img className="Genshin" src={"Genshin/Genshin.png"} alt="图片" style={{ opacity: visible ? "1" : "0" }} />
         <div className="LoadingBar" style={{ opacity: visible ? "1" : "0" }}>
