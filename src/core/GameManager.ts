@@ -58,33 +58,32 @@ class GameManager extends EventEmitter {
     
     public async confirmRestart() {
         try {
-            // 获取当前URL的host和pathname
-            const currentHost = window.location.host;
+            // 获取当前URL的pathname
             const currentPath = window.location.pathname;
             
-            // 优先级1: 检测API中的网站列表
-            try {
-                const response = await fetch('https://api.guc.edu.kg/list.json');
-                const data = await response.json();
-                
-                // 查找匹配的网站
-                const matchedWebsite = data.websites.find((website: any) => {
-                    try {
-                        const websiteUrl = new URL(website.url.trim());
-                        return websiteUrl.host === currentHost;
-                    } catch (error) {
-                        console.warn('Invalid URL in website data:', website.url);
-                        return false;
+            // 优先级1: 检测API中的网站列表 (host/*)
+            // 提取路径中的第一个部分作为可能的name
+            const pathParts = currentPath.split('/').filter(part => part.length > 0);
+            const potentialName = pathParts[0]; // 获取第一个路径段
+            
+            if (potentialName) {
+                try {
+                    const response = await fetch('https://api.guc.edu.kg/list.json');
+                    const data = await response.json();
+                    
+                    // 查找name匹配的网站
+                    const matchedWebsite = data.websites.find((website: any) => {
+                        return website.name === potentialName;
+                    });
+                    
+                    if (matchedWebsite) {
+                        console.log('Found matching website by name:', matchedWebsite.name);
+                        window.location.href = matchedWebsite.url.trim();
+                        return;
                     }
-                });
-                
-                if (matchedWebsite) {
-                    console.log('Found matching website from API:', matchedWebsite.name);
-                    window.location.href = matchedWebsite.url.trim();
-                    return;
+                } catch (apiError) {
+                    console.warn('API request failed, continuing to next priority:', apiError);
                 }
-            } catch (apiError) {
-                console.warn('API request failed, continuing to next priority:', apiError);
             }
             
             // 优先级2: 检测 /s/* 路径
